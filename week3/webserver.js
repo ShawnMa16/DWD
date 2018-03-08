@@ -20,18 +20,18 @@ var count = 0;
 //     test: 8});
 // });
 
-app.get('/emailRec', function (req,res) {
+app.get('/emailRec', function(req, res) {
 
   var obj = new Object();
-   obj.name = req.query.name;
-   obj.email  = req.query.email;
-   obj.content = req.query.content;
-   var contacts= JSON.stringify(obj);
+  obj.name = req.query.name;
+  obj.email = req.query.email;
+  obj.content = req.query.content;
+  var contacts = JSON.stringify(obj);
 
   // var tempString = '{"contacts" : {"name":req.query.name, "email":eq.query.email, "content":req.query.content}}'
   db.contacts.save(JSON.parse(contacts), function(err, saved) {
-    if( err || !saved ) console.log("Not saved");
-      else console.log("Saved");
+    if (err || !saved) console.log("Not saved");
+    else console.log("Saved");
   });
 
   res.redirect('/display');
@@ -42,14 +42,15 @@ app.get('/display', function(req, res) {
 
   db.contacts.find({}, function(err, saved) {
     if (err || !saved) {
-    	console.log("No results");
-    }
-    else saved.forEach(function(record) {
-      res.render('display.ejs', {thedata:saved});
-    	console.log(record);
-  	});
+      console.log("No results");
+    } else saved.forEach(function(record) {
+      res.render('display.ejs', {
+        thedata: saved
+      });
+      console.log(record);
+    });
 
-  	/* Alternatively you could loop through the records with a "for"
+    /* Alternatively you could loop through the records with a "for"
   	for (var i = 0; i < saved.length; i++) {
 	  	console.log(saved[i]);
 	}
